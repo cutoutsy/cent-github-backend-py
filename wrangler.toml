@@ -1,4 +1,4 @@
-name = "fastapi-worker"
+name = "cent-backend-py"
 main = "./app.py"
 compatibility_flags = ["python_workers", "python_dedicated_snapshot"]
 compatibility_date = "2025-10-09"
