@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}首页 - GitHub OAuth Demo{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        {% if user_info %}
+            <div class="card text-white mb-4">
+                <div class="card-body text-center">
+                    <h1 class="card-title">
+                        <i class="fas fa-check-circle text-success me-2"></i>
+                        欢迎回来，{{ user_info.name or user_info.login }}！
+                    </h1>
+                    <p class="card-text lead">您已成功通过GitHub OAuth认证登录</p>
+                    <a href="{{ url_for('profile') }}" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-user me-2"></i>查看个人资料
+                    </a>
+                </div>
+            </div>
+        {% else %}
+            <div class="card text-white">
+                <div class="card-body text-center">
+                    <div class="mb-4">
+                        <i class="fab fa-github" style="font-size: 4rem;"></i>
+                    </div>
+                    <h1 class="card-title mb-4">GitHub OAuth 认证演示</h1>
+                    <p class="card-text lead mb-4">
+                        这是一个使用Python Flask和GitHub OAuth的认证演示程序。<br>
+                        点击下方按钮使用您的GitHub账号登录。
+                    </p>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-4 mb-3">
+                            <div class="text-center">
+                                <i class="fas fa-shield-alt fa-2x mb-2"></i>
+                                <h5>安全认证</h5>
+                                <p class="small">使用GitHub官方OAuth2.0安全认证</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="text-center">
+                                <i class="fas fa-user-circle fa-2x mb-2"></i>
+                                <h5>用户信息</h5>
+                                <p class="small">获取您的GitHub基本信息和邮箱</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="text-center">
+                                <i class="fas fa-code-branch fa-2x mb-2"></i>
+                                <h5>仓库访问</h5>
+                                <p class="small">查看您最近更新的代码仓库</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="{{ url_for('login') }}" class="btn btn-github btn-lg">
+                        <i class="fab fa-github me-2"></i>使用GitHub登录
+                    </a>
+                    
+                    <div class="mt-4">
+                        <small class="text-muted">
+                            <i class="fas fa-info-circle me-1"></i>
+                            我们仅会获取您的公开信息，不会存储您的敏感数据
+                        </small>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+{% if not user_info %}
+<div class="row justify-content-center mt-4">
+    <div class="col-md-8">
+        <div class="card text-white">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-cog me-2"></i>技术栈
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6><i class="fab fa-python me-2"></i>后端技术</h6>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success me-2"></i>Python 3.x</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Flask 框架</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Requests 库</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Session 管理</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-palette me-2"></i>前端技术</h6>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success me-2"></i>Bootstrap 5</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Font Awesome</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Jinja2 模板</li>
+                            <li><i class="fas fa-check text-success me-2"></i>响应式设计</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

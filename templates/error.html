@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}错误 - GitHub OAuth Demo{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card text-white">
+            <div class="card-body text-center">
+                <div class="mb-4">
+                    <i class="fas fa-exclamation-triangle text-warning" style="font-size: 4rem;"></i>
+                </div>
+                <h2 class="card-title text-warning mb-3">认证出错</h2>
+                <p class="card-text lead mb-4">
+                    很抱歉，在处理GitHub OAuth认证时发生了错误。
+                </p>
+                
+                <div class="alert alert-danger" role="alert">
+                    <i class="fas fa-bug me-2"></i>
+                    <strong>错误信息：</strong>{{ error }}
+                </div>
+                
+                <div class="mt-4">
+                    <a href="{{ url_for('index') }}" class="btn btn-outline-light me-2">
+                        <i class="fas fa-home me-1"></i>返回首页
+                    </a>
+                    <a href="{{ url_for('login') }}" class="btn btn-github">
+                        <i class="fab fa-github me-1"></i>重新登录
+                    </a>
+                </div>
+                
+                <div class="mt-4">
+                    <small class="text-muted">
+                        <i class="fas fa-info-circle me-1"></i>
+                        如果问题持续存在，请检查GitHub OAuth应用配置
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row justify-content-center mt-4">
+    <div class="col-md-8">
+        <div class="card text-white">
+            <div class="card-header">
+                <h6 class="mb-0">
+                    <i class="fas fa-question-circle me-2"></i>常见问题
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="accordion" id="faqAccordion">
+                    <div class="accordion-item bg-transparent border-secondary">
+                        <h2 class="accordion-header" id="faq1">
+                            <button class="accordion-button collapsed bg-transparent text-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
+                                GitHub Client ID未配置
+                            </button>
+                        </h2>
+                        <div id="collapse1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-muted">
+                                请确保在环境变量中设置了<code>GITHUB_CLIENT_ID</code>和<code>GITHUB_CLIENT_SECRET</code>。
+                                这些值可以在您的GitHub OAuth应用设置中找到。
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item bg-transparent border-secondary">
+                        <h2 class="accordion-header" id="faq2">
+                            <button class="accordion-button collapsed bg-transparent text-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
+                                授权回调URL不匹配
+                            </button>
+                        </h2>
+                        <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-muted">
+                                请确保在GitHub OAuth应用中设置的回调URL与应用程序的回调URL一致。
+                                通常应该是：<code>http://localhost:5000/callback</code>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item bg-transparent border-secondary">
+                        <h2 class="accordion-header" id="faq3">
+                            <button class="accordion-button collapsed bg-transparent text-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3">
+                                State参数验证失败
+                            </button>
+                        </h2>
+                        <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-muted">
+                                这是安全机制，防止CSRF攻击。如果频繁出现此错误，请清除浏览器缓存或尝试无痕模式。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
