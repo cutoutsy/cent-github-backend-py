@@ -452,7 +452,8 @@ def refresh_github_token():
                 'client_secret': GITHUB_CLIENT_SECRET,
                 'grant_type': 'refresh_token',
                 'refresh_token': refresh_token,
-            }
+            },
+            timeout=10
         )
         
         if not token_response.ok:
@@ -495,4 +496,4 @@ if __name__ == '__main__':
         print("警告: 请设置环境变量 GITHUB_CLIENT_ID 和 GITHUB_CLIENT_SECRET")
         print("请参考 README.md 获取详细配置说明")
     
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, host='0.0.0.0', port=80)
