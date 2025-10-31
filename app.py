@@ -144,7 +144,7 @@ def login():
     
     params = {
         'client_id': GITHUB_CLIENT_ID,
-        # 'redirect_uri': url_for('github_oauth_authorized', _external=True),
+        'redirect_uri': url_for('github_oauth_authorized', _external=True),
         'scope': 'repo read:user user:email',  # 添加repo权限以访问私有仓库
         'state': state
     }
@@ -257,18 +257,35 @@ def github_oauth_authorized():
         
         # 步骤 3: 使用 code 交换 Access Token
         print("Exchanging code for access token...")
-        token_response = requests.post(
-            GITHUB_TOKEN_URL,
-            headers={
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
-            json={
-                'client_id': GITHUB_CLIENT_ID,
-                'client_secret': GITHUB_CLIENT_SECRET,
-                'code': code,
-            }
-        )
+        print(f"GitHub Token URL: {GITHUB_TOKEN_URL}")
+        print(f"Client ID: {GITHUB_CLIENT_ID[:8]}...")  # 只显示前8位用于调试
+        
+        try:
+            token_response = requests.post(
+                GITHUB_TOKEN_URL,
+                headers={
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                json={
+                    'client_id': GITHUB_CLIENT_ID,
+                    'client_secret': GITHUB_CLIENT_SECRET,
+                    'code': code,
+                },
+                timeout=10  # 添加10秒超时
+            )
+            print(f"Token response status: {token_response.status_code}")
+            print(f"Token response headers: {dict(token_response.headers)}")
+            
+        except requests.exceptions.Timeout:
+            print("ERROR: Request to GitHub token endpoint timed out")
+            abort(500, description="GitHub authentication service is not responding. Please try again later.")
+        except requests.exceptions.ConnectionError as e:
+            print(f"ERROR: Connection error when contacting GitHub: {e}")
+            abort(500, description="Unable to connect to GitHub authentication service. Please check your network connection.")
+        except requests.exceptions.RequestException as e:
+            print(f"ERROR: Request failed: {e}")
+            abort(500, description="Authentication request failed. Please try again.")
         
         if not token_response.ok:
             error_body = token_response.text
